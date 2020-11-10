@@ -61,7 +61,7 @@
     group: root
     mode: 0644
   notify:
-    - restart loki
+    - enable and restart loki
 
 - name: create systemd service unit
   template:
@@ -71,4 +71,4 @@
     group: root
     mode: 0644
   notify:
-    - restart loki
+    - enable and restart loki
