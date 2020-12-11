@@ -34,6 +34,22 @@
       notify: enable and restart loki
   when: current_loki_version.stdout != loki_version
 
+- block:
+  - name: download and unzip logcli binary
+    unarchive:
+      src: https://github.com/grafana/loki/releases/download/v{{ loki_version }}/logcli-linux-amd64.zip
+      remote_src: yes
+      dest: /usr/local/bin
+  - name: rename new logcli binary
+    command: mv /usr/local/bin/logcli-linux-amd64 /usr/local/bin/logcli
+  - name: set logcli binary ownership and permissions
+    file:
+      path: /usr/local/bin/logcli
+      owner: root
+      group: root
+      mode: ug=rx
+  when: loki_install_logcli and current_loki_version.stdout != loki_version
+
 - name: pre-create loki folders
   file:
     name: "{{ loki_directories }}"

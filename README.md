@@ -21,9 +21,9 @@ This role is compatible with any modern systemd-based distro.
 | loki_limits_config              | default dict  | YAML with limits settings                          |
 | loki_chunk_store_config         | default dict  | YAML with chuck store settings                     |
 | loki_table_manager              | default dict  | YAML with table manager settings                   |
+| loki_install_logcli             | `true`        | whether `logcli` shall be installed too            |
 
 ## Settings
 To configure loki with role you just need to supply YAML to each corresponding block. See example configs from loki github repo for examples.   
 Default settings are provided to get "proof-of-concept" installation up and running, you can see them in defaults/main.yml  
 Please note that by default loki writes to /tmp/, you will need to adjust loki_storage_config in case you want S3/GCS/other supported storage  
-
