@@ -65,9 +65,9 @@
   template:
     src: loki.yml.j2
     dest: /etc/loki.yml
-    owner: root
-    group: root
-    mode: 0644
+    owner: "{{ loki_system_user }}"
+    group: "{{ loki_system_group }}"
+    mode: og=r
   notify:
     - restart loki
 
