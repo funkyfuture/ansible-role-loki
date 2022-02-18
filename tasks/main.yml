@@ -39,13 +39,13 @@
     loop: "{{ loki_binaries }}"
   when: current_loki_version.stdout != loki_version
 
-- name: pre-create loki folders
+- name: ensure permissions for and in loki_directories
   file:
     path: "{{ item }}"
     state: directory
+    recurse: true
     owner: "{{ loki_system_user }}"
     group: "{{ loki_system_group }}"
-  when: loki_directories|length>0
   loop: "{{ loki_directories }}"
 
 #- name: deploy loki alerts
