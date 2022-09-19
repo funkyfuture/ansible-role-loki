@@ -23,6 +23,7 @@
     shell: "/usr/sbin/nologin"
     group: "{{ loki_system_group }}"
     createhome: false
+  when: loki_system_user != "root"
 
 - name: get current loki version
   shell: loki --version | head -n1 | cut -d " " -f 3
