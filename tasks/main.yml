@@ -1,14 +1,6 @@
-- set_fact:
-    loki_download_base_url: "https://github.com/grafana/loki/releases/download/v{{ loki_version }}"
-    loki_binaries: ["loki"]
+---
 
-- set_fact:
-    # possibly overridden in tasks/local_download.yml
-    loki_archive_src: "{{ loki_download_base_url }}"
-
-- set_fact:
-    loki_binaries: ["loki", "logcli"]
-  when: loki_install_logcli
+- include_tasks: vars.yml
 
 - name: create loki system group
   group:
@@ -89,3 +81,5 @@
     state: started
     enabled: yes
     masked: no
+
+...

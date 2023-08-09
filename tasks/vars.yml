@@ -1,0 +1,23 @@
+---
+
+- name: Set target version complementary to promtail's
+  set_fact:
+    loki_version: "{{ promtail_version }}"
+  when: promtail_version is defined
+
+- name: Set source URL base and binary
+  set_fact:
+    loki_download_base_url: "https://github.com/grafana/loki/releases/download/v{{ loki_version }}"
+    loki_binaries: ["loki"]
+
+- name: Extend binaries with logcli
+  set_fact:
+    loki_binaries: ["loki", "logcli"]
+  when: loki_install_logcli
+
+- name: Set default
+  set_fact:
+    # possibly overridden in tasks/local_download.yml
+    loki_archive_src: "{{ loki_download_base_url }}"
+
+...
