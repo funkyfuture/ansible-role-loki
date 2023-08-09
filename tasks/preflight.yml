@@ -1,0 +1,9 @@
+---
+
+- name: Allow root user group for root user only
+  ansible.builtin.assert:
+    that:
+      - loki_system_user != "root"
+  when: loki_system_group != "root"
+
+...
