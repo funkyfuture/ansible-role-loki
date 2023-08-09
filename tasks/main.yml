@@ -20,40 +20,17 @@
 
 - name: get current loki version
   shell: loki --version | head -n1 | cut -d " " -f 3
-  register: current_loki_version
+  register: loki_current_version
   changed_when: false
 
 - block:
   - name: download files to localhost
-    include_tasks:
-      file: local_download.yml
-    when: loki_distribute_binaries_via_localhost
+    include_tasks: local_download.yml
     loop: "{{ loki_binaries }}"
+    when: loki_distribute_binaries_via_localhost
   - include_tasks: install.yml
     loop: "{{ loki_binaries }}"
-  when: current_loki_version.stdout != loki_version
-
-- name: ensure permissions for and in loki_directories
-  file:
-    path: "{{ item }}"
-    state: directory
-    recurse: true
-    owner: "{{ loki_system_user }}"
-    group: "{{ loki_system_group }}"
-  loop: "{{ loki_directories }}"
-
-#- name: deploy loki alerts
-#  template:
-#    src: "alert.rules.j2"
-#    dest: "{{ loki_alerts_directory }}/ansible_managed.rules"
-#    owner: "{{ loki_system_user }}"
-#    group: "{{ loki_system_group }}"
-#    mode: 0640
-#    validate: "{{ _prometheus_binary_install_dir }}/promtool check rules %s"
-#  when:
-#    - loki_alert_rules != []
-#  notify:
-#    - restart loki
+  when: loki_current_version.stdout != loki_version
 
 - name: configure loki
   template:
@@ -61,7 +38,7 @@
     dest: /etc/loki.yml
     owner: "{{ loki_system_user }}"
     group: "{{ loki_system_group }}"
-    mode: og=r
+    mode: ug=r
   notify:
     - restart loki
 
@@ -71,16 +48,8 @@
     dest: /etc/systemd/system/loki.service
     owner: root
     group: root
-    mode: 0644
+    mode: ug=r,o=
   notify:
     - restart loki
-
-- name: Enable and unmask loki service
-  systemd:
-    daemon_reload: true
-    name: loki
-    state: started
-    enabled: yes
-    masked: no
 
 ...

@@ -14,7 +14,6 @@ This role is compatible with any modern systemd-based distro.
 | loki_system_group               | `loki`        | group for running loki                             |
 | loki_server_http_listen_port    | `3100`        | listen port for loki                               |
 | loki_server_http_listen_address | `localhost`   | listen address for loki                            |
-| loki_directories                | `[]`          | array of directories to create before running loki |
 | loki_arguments                  | `[]`          | arguments to pass to loki binary                   |
 | loki_memberlist                 | empty         | YAML with memberlist settings |
 | loki_schema_config              | default dict  | YAML with schema config                            |
@@ -26,26 +25,9 @@ This role is compatible with any modern systemd-based distro.
 | loki_compactor                  | empty         | YAML with compactor settings                       |
 | loki_query_range                | empty         | YAML with query range settings
 | loki_ruler                      | empty         | YAML with ruler settings
-| loki_alert_rules                | `[]`          | YAML with alerts
 | loki_install_logcli             | `true`        | whether `logcli` shall be installed too            |
 
 ## Settings
-To configure loki with role you just need to supply YAML to each corresponding block. See example configs from loki github repo for examples.   
-Default settings are provided to get "proof-of-concept" installation up and running, you can see them in defaults/main.yml  
-Please note that by default loki writes to /tmp/, you will need to adjust loki_storage_config in case you want S3/GCS/other supported storage  
-
-## Alerts (WIP, not working ATM)
-To use alerts you will need to use loki's ruler. Default setting enables it, with rules stored in /tmp with empty ruleset. Alerts follows prometheus format. Sample alert:
-```yaml
-loki_alert_rules:
-  groups:
-    - name: nginx
-      rules:
-        - alert: nginx
-          annotations:
-            description: Errors in nginx requests
-          expr: '{% raw %}sum(count_over_time({app="nginx", container="application", type="error"} > 0{% endraw %}'
-          for: 1m
-          labels:
-            severity: warning
-```
+To configure loki with role you just need to supply YAML to each corresponding block. See example configs from loki github repo for examples.
+Default settings are provided to get "proof-of-concept" installation up and running, you can see them in defaults/main.yml
+Please note that by default loki writes to /tmp/, you will need to adjust loki_storage_config in case you want S3/GCS/other supported storage
