@@ -11,6 +11,6 @@
   notify: restart loki
 
 - name: Rename new binary
-  ansible.builtin.command: mv /usr/local/bin/{{ item }}-linux-amd64 /usr/local/bin/{{ item }}
+  ansible.builtin.command: mv /usr/local/bin/{{ item }}-{{ loki_binaries_archive_suffix }} /usr/local/bin/{{ item }}
 
 ...

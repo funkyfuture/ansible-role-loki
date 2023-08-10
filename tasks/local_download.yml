@@ -2,7 +2,7 @@
 
 - name: Download loki files to operator system
   ansible.builtin.get_url:
-    url: "{{ binaries_location }}/{{ item }}-linux-amd64.zip"
+    url: "{{ binaries_location }}/{{ item }}-{{ loki_binaries_archive_suffix }}"
     dest: /tmp
     mode: a=r
   become: false
@@ -11,7 +11,7 @@
 
 - name: Copy archive to target hosts
   ansible.builtin.copy:
-    src: /tmp/{{ item }}-linux-amd64.zip
+    src: /tmp/{{ item }}-{{ loki_binaries_archive_suffix }}
     dest: /tmp/
 
 - ansible.builtin.set_fact:

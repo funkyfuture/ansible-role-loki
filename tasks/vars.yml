@@ -16,8 +16,16 @@
     loki_binaries: ["loki", "logcli"]
   when: loki_install_logcli
 
+- name: Define a mapping from ansible_architecture to common names
+  ansible.builtin.set_fact:
+    _architectures:
+      aarch64: arm64
+      armv6l: arm
+      armv7l: arm
+      x86_64: amd64
+
 - name: Define binary archive suffix
   ansible.builtin.set_fact:
-    loki_binaries_archive_suffix: linux-amd64.zip
+    loki_binaries_archive_suffix: linux-{{ _architectures[ansible_architecture] }}.zip
 
 ...
