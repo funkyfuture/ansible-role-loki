@@ -1,17 +1,17 @@
 ---
 
-- include_tasks: vars.yml
+- ansible.builtin.include_tasks: vars.yml
 
-- include_tasks: preflight.yml
+- ansible.builtin.include_tasks: preflight.yml
 
 - name: create loki system group
-  group:
+  ansible.builtin.group:
     name: "{{ loki_system_group }}"
     state: present
   when: loki_system_group != "root"
 
 - name: create loki system user
-  user:
+  ansible.builtin.user:
     name: "{{ loki_system_user }}"
     shell: "/usr/sbin/nologin"
     group: "{{ loki_system_group }}"
@@ -19,31 +19,31 @@
   when: loki_system_user != "root"
 
 - name: get current loki version
-  shell: loki --version | head -n1 | cut -d " " -f 3
+  ansible.builtin.shell: loki --version | head -n1 | cut -d " " -f 3
   register: loki_current_version
   changed_when: false
 
 - block:
   - name: download files to localhost
-    include_tasks: local_download.yml
+    ansible.builtin.include_tasks: local_download.yml
     loop: "{{ loki_binaries }}"
     when: loki_distribute_binaries_via_localhost
-  - include_tasks: install.yml
+  - ansible.builtin.include_tasks: install.yml
     loop: "{{ loki_binaries }}"
   when: loki_current_version.stdout != loki_version
 
 - name: configure loki
-  template:
+  ansible.builtin.template:
     src: loki.yml.j2
     dest: /etc/loki.yml
     owner: "{{ loki_system_user }}"
     group: "{{ loki_system_group }}"
-    mode: ug=r
+    mode: ug=r,o=
   notify:
     - restart loki
 
 - name: create systemd service unit
-  template:
+  ansible.builtin.template:
     src: loki.service.j2
     dest: /etc/systemd/system/loki.service
     owner: root

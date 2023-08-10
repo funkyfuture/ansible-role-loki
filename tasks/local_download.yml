@@ -1,17 +1,21 @@
+---
+
 - name: "Download loki files to localhost"
   become: false
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ loki_download_base_url }}/{{ item }}-linux-amd64.zip"
     dest: "/tmp/"
   delegate_to: localhost
   run_once: true
 
 - name: copy archive to target hosts
-  copy:
+  ansible.builtin.copy:
     src: /tmp/{{ item }}-linux-amd64.zip
     dest: /tmp/
 
-- set_fact:
+- ansible.builtin.set_fact:
     loki_archive_src: /tmp
 
-# TODO clean up temporary files later?
+# TODO clean up temporary files later!
+
+...
