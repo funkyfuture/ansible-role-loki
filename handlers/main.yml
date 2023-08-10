@@ -1,7 +1,8 @@
 ---
 
-- name: restart loki
-  ansible.builtin.systemd_service:
+- name: Enable and (re)start loki
+  listen: restart loki
+  ansible.builtin.systemd:
     name: loki
     daemon_reload: yes
     enabled: yes

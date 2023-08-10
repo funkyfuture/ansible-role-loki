@@ -7,7 +7,8 @@
 
 - name: Set source URL base and binary
   ansible.builtin.set_fact:
-    loki_download_base_url: "https://github.com/grafana/loki/releases/download/v{{ loki_version }}"
+    # possibly overridden in tasks/local_download.yml
+    binaries_location: "https://github.com/grafana/loki/releases/download/v{{ loki_version }}"
     loki_binaries: ["loki"]
 
 - name: Extend binaries with logcli
@@ -15,9 +16,8 @@
     loki_binaries: ["loki", "logcli"]
   when: loki_install_logcli
 
-- name: Set default
+- name: Define binary archive suffix
   ansible.builtin.set_fact:
-    # possibly overridden in tasks/local_download.yml
-    loki_archive_src: "{{ loki_download_base_url }}"
+    loki_binaries_archive_suffix: linux-amd64.zip
 
 ...

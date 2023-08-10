@@ -1,16 +1,16 @@
 ---
 
-- name: copy and unzip binary
+- name: Unzip binary distribution archive
   ansible.builtin.unarchive:
-    src: "{{ loki_archive_src }}/{{ item }}-linux-amd64.zip"
+    src: "{{ binaries_location }}/{{ item }}-{{ loki_binaries_archive_suffix }}"
     remote_src: "{{ not loki_distribute_binaries_via_localhost }}"
     dest: /usr/local/bin
     owner: "{{ loki_system_user }}"
     group: "{{ loki_system_group }}"
-    mode: ug=rx
+    mode: ug=rx,o=
   notify: restart loki
 
-- name: rename new binary
+- name: Rename new binary
   ansible.builtin.command: mv /usr/local/bin/{{ item }}-linux-amd64 /usr/local/bin/{{ item }}
 
 ...
