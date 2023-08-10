@@ -2,7 +2,7 @@
 
 - name: Unzip binary distribution archive
   ansible.builtin.unarchive:
-    src: "{{ binaries_location }}/{{ item }}-{{ loki_binaries_archive_suffix }}"
+    src: "{{ binaries_location }}/{{ item }}-{{ loki_binaries_platform_suffix }}.zip"
     remote_src: "{{ not loki_distribute_binaries_via_localhost }}"
     dest: /usr/local/bin
     owner: "{{ loki_system_user }}"
@@ -11,6 +11,12 @@
   notify: restart loki
 
 - name: Rename new binary
-  ansible.builtin.command: mv /usr/local/bin/{{ item }}-{{ loki_binaries_archive_suffix }} /usr/local/bin/{{ item }}
+  ansible.builtin.command: mv /usr/local/bin/{{ item }}-{{ loki_binaries_platform_suffix }} /usr/local/bin/{{ item }}
+
+- name: Remove binary archive
+  ansible.builtin.file:
+    path: /tmp/{{ item }}-{{ loki_binaries_platform_suffix }}.zip
+    state: absent
+  when: loki_distribute_binaries_via_localhost
 
 ...

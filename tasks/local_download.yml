@@ -2,21 +2,21 @@
 
 - name: Download loki files to operator system
   ansible.builtin.get_url:
-    url: "{{ binaries_location }}/{{ item }}-{{ loki_binaries_archive_suffix }}"
+    url: "{{ binaries_location }}/{{ item }}-{{ loki_binaries_platform_suffix }}.zip"
     dest: /tmp
     mode: a=r
   become: false
   delegate_to: localhost
   run_once: true
+  notify: cleanup loki archives
 
 - name: Copy archive to target hosts
   ansible.builtin.copy:
-    src: /tmp/{{ item }}-{{ loki_binaries_archive_suffix }}
+    src: /tmp/{{ item }}-{{ loki_binaries_platform_suffix }}.zip
     dest: /tmp/
 
+# FIXME this would be spoiled witzh a second download of logcli; hence move to main.yml
 - ansible.builtin.set_fact:
     binaries_location: /tmp
-
-# TODO clean up temporary files later!
 
 ...

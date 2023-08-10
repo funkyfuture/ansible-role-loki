@@ -26,6 +26,6 @@
 
 - name: Define binary archive suffix
   ansible.builtin.set_fact:
-    loki_binaries_archive_suffix: linux-{{ _architectures[ansible_architecture] }}.zip
+    loki_binaries_platform_suffix: linux-{{ _architectures[ansible_architecture] }}
 
 ...

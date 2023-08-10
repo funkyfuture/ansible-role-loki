@@ -1,5 +1,12 @@
 ---
 
+- name: Clean up downloaded files on the operator system
+  listen: cleanup loki archives
+  ansible.builtin.shell: rm /tmp/loki-linux-*.zip || rm /tmp/logcli-linux-*.zip || true
+  become: false
+  delegate_to: localhost
+  run_once: true
+
 - name: Enable and (re)start loki
   listen: restart loki
   ansible.builtin.systemd:
