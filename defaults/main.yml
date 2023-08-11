@@ -1,26 +1,20 @@
-loki_version: 2.3.0
+---
+
+# installation
+
+loki_distribute_binaries_via_localhost: false
+loki_install_logcli: true
 loki_system_user: loki
 loki_system_group: loki
-loki_auth_enabled: false
-loki_arguments: []
-loki_server_http_listen_port: 3100
-loki_server_http_listen_address: localhost
-loki_directories: []
-loki_alerts_directory: /etc/loki/rules
-loki_schema_config:
-  - from: 2018-04-15
-    store: boltdb
-    object_store: filesystem
-    schema: v11
-    index:
-      prefix: index_
-      period: 168h
+loki_version: 2.7.6
 
-loki_storage_config:
-  boltdb:
-    directory: /tmp/loki/index
-  filesystem:
-    directory: /tmp/loki/chunks
+# configuration
+
+loki_arguments: []
+
+loki_auth_enabled: false
+
+loki_data_retention_period: 52w
 
 loki_ingester:
   lifecycler:
@@ -29,23 +23,25 @@ loki_ingester:
       kvstore:
         store: inmemory
       replication_factor: 1
-    final_sleep: 0s
-  chunk_idle_period: 5m
-  chunk_retain_period: 30s
-  max_transfer_retries: 0
 
-loki_limits_config:
-  enforce_metric_name: false
-  reject_old_samples: true
-  reject_old_samples_max_age: 168h
+loki_log_level: info
 
-loki_chunk_store_config:
-  max_look_back_period: 0s
+loki_server_http_listen_port: 3100
+loki_server_http_listen_address: localhost
 
-loki_table_manager:
-  retention_deletes_enabled: false
-  retention_period: 0s
+loki_schema_configs:
+  - from: 2018-04-15
+    index:
+      period: 1w
+      prefix: loki_index_
+    object_store: filesystem
+    schema: v11
+    store: boltdb
 
-loki_distribute_binaries_via_localhost: true
-loki_install_logcli: true
+loki_storage_config:
+  boltdb:
+    directory: /var/lib/loki/index
+  filesystem:
+    directory: /var/lib/loki/chunks
 
+...
