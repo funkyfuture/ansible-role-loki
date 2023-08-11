@@ -24,11 +24,17 @@
   changed_when: false
 
 - block:
-  - ansible.builtin.include_tasks: local_download.yml
-    loop: "{{ loki_binaries }}"
+
+  - block:
+    - ansible.builtin.include_tasks: local_download.yml
+      loop: "{{ loki_binaries }}"
+    - ansible.builtin.set_fact:
+        binaries_location: /tmp
     when: loki_distribute_binaries_via_localhost
+
   - ansible.builtin.include_tasks: install.yml
     loop: "{{ loki_binaries }}"
+
   when: loki_current_version.stdout != loki_version
 
 - name: Generate configuration file

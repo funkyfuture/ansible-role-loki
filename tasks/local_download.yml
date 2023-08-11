@@ -15,8 +15,4 @@
     src: /tmp/{{ item }}-{{ loki_binaries_platform_suffix }}.zip
     dest: /tmp/
 
-# FIXME this would be spoiled witzh a second download of logcli; hence move to main.yml
-- ansible.builtin.set_fact:
-    binaries_location: /tmp
-
 ...
