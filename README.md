@@ -12,13 +12,15 @@ This role is compatible with systemd-based Linux distributions.
 ## Role Variables
 
 The variables to control loki's configuration file merely provide a minimal
-set of options for simple setups.
+set of options for simple setup.
 [Data retention](https://grafana.com/docs/loki/latest/operations/storage/retention/)
 is configured per default with the table manager.
+Detailed control can be achieved with the `loki_config_overrides` variable.
 
 | Variable name                     | Description                                                                                                        |
 | --------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
 | `loki_arguments`                  | arguments to pass to loki binary                                                                                   |
+| `loki_config_overrides`           | a complete mapping of configuration file contents that extends and overrides what is defined by variables          |
 | `loki_data_retention_period`      | the period after which data is dismissed, e.g. `12h`, `3d`, `42w`                                                  |
 | `loki_ingester`                   | a mapping with [`ingester`](https://grafana.com/docs/loki/latest/configuration/#ingester) settings                 |
 | `loki_install_logcli`             | whether `logcli` shall be installed too                                                                            |

@@ -14,6 +14,8 @@ loki_arguments: []
 
 loki_auth_enabled: false
 
+loki_config_overrides: {}
+
 loki_data_retention_period: 52w
 
 loki_ingester:
@@ -30,7 +32,7 @@ loki_server_http_listen_port: 3100
 loki_server_http_listen_address: localhost
 
 loki_schema_configs:
-  - from: 2018-04-15
+  - from: "2018-04-15"
     index:
       period: 1w
       prefix: loki_index_

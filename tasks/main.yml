@@ -46,12 +46,16 @@
     mode: ug=rwx,o=
 
 - name: Generate configuration file
-  ansible.builtin.template:
-    src: loki.yml.j2
+  ansible.builtin.copy:
     dest: /etc/loki.yml
     owner: "{{ loki_system_user }}"
     group: "{{ loki_system_group }}"
     mode: ug=r,o=
+    content: |
+      ---
+
+      {{ loki_config_file_contents | ansible.builtin.combine(loki_config_overrides, recursive=true) | ansible.builtin.to_nice_yaml(indent=2) }}
+      ...
   notify:
     - restart loki
 
