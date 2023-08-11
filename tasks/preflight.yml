@@ -1,5 +1,15 @@
 ---
 
+- name: Verify system's service manager
+  ansible.builtin.assert:
+    that:
+      - ansible_service_mgr == "systemd"
+
+- name: Ensure one config.file option
+  ansible.builtin.assert:
+    that:
+      - "'-config.file' not in loki_arguments"
+
 - name: Allow root user group for root user only
   ansible.builtin.assert:
     that:
