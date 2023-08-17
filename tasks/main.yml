@@ -23,19 +23,17 @@
   register: loki_current_version
   changed_when: false
 
-- block:
+- when: loki_current_version.stdout != loki_version
+  block:
+    - when: loki_distribute_binaries_via_localhost
+      block:
+        - ansible.builtin.include_tasks: local_download.yml
+          loop: "{{ loki_binaries }}"
+        - ansible.builtin.set_fact:
+            binaries_location: /tmp
 
-  - block:
-    - ansible.builtin.include_tasks: local_download.yml
+    - ansible.builtin.include_tasks: install.yml
       loop: "{{ loki_binaries }}"
-    - ansible.builtin.set_fact:
-        binaries_location: /tmp
-    when: loki_distribute_binaries_via_localhost
-
-  - ansible.builtin.include_tasks: install.yml
-    loop: "{{ loki_binaries }}"
-
-  when: loki_current_version.stdout != loki_version
 
 - name: Configure data directory
   ansible.builtin.file:

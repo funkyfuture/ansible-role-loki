@@ -12,6 +12,7 @@
 
 - name: Rename new binary
   ansible.builtin.command: mv /usr/local/bin/{{ item }}-{{ loki_binaries_platform_suffix }} /usr/local/bin/{{ item }}
+  changed_when: true
 
 - name: Remove binary archive
   ansible.builtin.file:

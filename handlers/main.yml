@@ -4,6 +4,7 @@
   listen: cleanup loki archives
   ansible.builtin.shell: rm /tmp/loki-linux-*.zip || rm /tmp/logcli-linux-*.zip || true
   become: false
+  changed_when: true
   delegate_to: localhost
   run_once: true
 
@@ -11,8 +12,8 @@
   listen: restart loki
   ansible.builtin.systemd:
     name: loki
-    daemon_reload: yes
-    enabled: yes
+    daemon_reload: true
+    enabled: true
     state: restarted
 
 ...
