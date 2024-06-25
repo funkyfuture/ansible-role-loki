@@ -1,6 +1,9 @@
 # Ansible Role to deploy loki
 
-This role can be used to deploy [loki](https://github.com/grafana/loki) on
+**Please refer to Grafana's [Ansible collection](https://galaxy.ansible.com/ui/repo/published/grafana/grafana/)
+for deploying Loki and Promtail.** This role is now deprecated.
+
+This role has been be used to deploy [loki](https://github.com/grafana/loki) on
 Linux distributions with the *systemd* service manager. It's meant to
 complement the [`patrickjahns.promtail`](https://galaxy.ansible.com/patrickjahns/promtail)
 role.
